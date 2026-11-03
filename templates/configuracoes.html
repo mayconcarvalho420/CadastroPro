@@ -1,0 +1,157 @@
+
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<header class="topbar">
+    <div>
+        <p class="eyebrow">ÁREA DO PROPRIETÁRIO</p>
+        <h1>Personalização</h1>
+        <p class="subtitle">
+            Configure a identidade visual do sistema.
+        </p>
+    </div>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Identidade visual</h2>
+            <p>Personalize o nome, as cores e o tema.</p>
+        </div>
+    </div>
+
+    <form class="inside-form"
+          action="{{ url_for('salvar_configuracoes') }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label>Nome do sistema</label>
+                <input name="nome_sistema"
+                       maxlength="50"
+                       value="{{ visual.nome_sistema }}"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>Nome da empresa</label>
+                <input name="nome_empresa"
+                       maxlength="80"
+                       value="{{ visual.nome_empresa }}"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>Cor principal</label>
+                <input name="cor_principal"
+                       type="color"
+                       class="input-cor"
+                       value="{{ visual.cor_principal }}">
+            </div>
+
+            <div class="field">
+                <label>Cor do menu lateral</label>
+                <input name="cor_lateral"
+                       type="color"
+                       class="input-cor"
+                       value="{{ visual.cor_lateral }}">
+            </div>
+
+            <div class="field">
+                <label>Tema da aplicação</label>
+                <select name="tema">
+                    <option value="claro"
+                        {% if visual.tema == 'claro' %}selected{% endif %}>
+                        Claro
+                    </option>
+                    <option value="escuro"
+                        {% if visual.tema == 'escuro' %}selected{% endif %}>
+                        Escuro
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Salvar configurações
+            </button>
+        </div>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Logotipo</h2>
+            <p>Envie uma imagem PNG ou JPG de até 2 MB.</p>
+        </div>
+    </div>
+
+    <div class="inside-form">
+        {% if visual.logo %}
+            <div class="logo-preview">
+                <img src="{{ url_for('static', filename=visual.logo) }}"
+                     alt="Logotipo atual">
+            </div>
+        {% endif %}
+
+        <form action="{{ url_for('enviar_logo') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="field">
+                <label>Selecionar logotipo</label>
+                <input name="logo"
+                       type="file"
+                       accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                       required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Enviar logotipo
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Restaurar aparência</h2>
+            <p>
+                Volte ao nome, cores e tema originais do CadastroPro.
+                Essa ação não exclui clientes.
+            </p>
+        </div>
+    </div>
+
+    <form class="inside-form"
+          action="{{ url_for('restaurar_configuracoes') }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <button type="submit"
+                class="btn btn-secondary"
+                onclick="return confirm('Restaurar o visual padrão?')">
+            Restaurar padrão
+        </button>
+    </form>
+</section>
+
+{% endblock %}

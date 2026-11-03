@@ -1,0 +1,179 @@
+
+:root {
+    --cor-principal: #2563eb;
+    --cor-lateral: #101a2e;
+}
+
+.sidebar {
+    background: var(--cor-lateral);
+}
+
+.marca-sistema {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: 750;
+    margin-bottom: 48px;
+    padding: 0 10px;
+    overflow-wrap: anywhere;
+}
+
+.logo-simbolo {
+    color: white;
+    font-size: 23px;
+}
+
+.logo-imagem {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.menu-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-admin a:hover {
+    background: rgba(255,255,255,.13);
+    color: white;
+}
+
+.btn-primary {
+    background: var(--cor-principal);
+}
+
+.btn-primary:hover {
+    background: var(--cor-principal);
+    filter: brightness(.9);
+}
+
+.eyebrow,
+.client-link,
+.small-link,
+.back-link {
+    color: var(--cor-principal);
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: var(--cor-principal);
+    outline: 2px solid var(--cor-principal);
+    outline-offset: 1px;
+}
+
+.field select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    background: white;
+    color: #182338;
+    font-size: 14px;
+}
+
+.field .input-cor {
+    height: 48px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.logo-preview {
+    padding: 18px;
+    background: #edf1f7;
+    border-radius: 10px;
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+
+.logo-preview img {
+    max-width: 200px;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+/* Tema escuro */
+
+.tema-escuro {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+.tema-escuro .content {
+    background: #0f172a;
+}
+
+.tema-escuro .panel,
+.tema-escuro .stat-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e5e7eb;
+}
+
+.tema-escuro h1,
+.tema-escuro h2,
+.tema-escuro .client-name,
+.tema-escuro .field label {
+    color: #f8fafc;
+}
+
+.tema-escuro .subtitle,
+.tema-escuro .panel-heading p,
+.tema-escuro .stat-card span,
+.tema-escuro .stat-card small,
+.tema-escuro .muted {
+    color: #a8b5c8;
+}
+
+.tema-escuro th {
+    background: #243449;
+    color: #cbd5e1;
+}
+
+.tema-escuro td {
+    border-color: #334155;
+}
+
+.tema-escuro .field input,
+.tema-escuro .field select {
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+.tema-escuro .field input:disabled {
+    background: #273449;
+    color: #cbd5e1;
+}
+
+.tema-escuro .count,
+.tema-escuro .btn-secondary {
+    background: #334155;
+    color: #e5e7eb;
+}
+
+.tema-escuro .address-form {
+    border-color: #334155;
+}
+
+.tema-escuro .client-link,
+.tema-escuro .small-link,
+.tema-escuro .back-link {
+    color: #93c5fd;
+}
+
+.tema-escuro .logo-preview {
+    background: #334155;
+}
+
+@media (max-width: 850px) {
+    .marca-sistema {
+        margin-bottom: 20px;
+    }
+}

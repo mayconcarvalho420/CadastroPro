@@ -1,0 +1,28 @@
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Configurações privadas
+.env
+.env.*
+
+# Bancos de dados locais
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos temporários
+.pytest_cache/
+.vscode/
+
+# Configurações administrativas
+admin_config.json
+admin.txt
+
+# Arquivos enviados pela aplicação
+static/uploads/

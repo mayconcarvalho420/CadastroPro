@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ visual.nome_sistema }} | Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='admin.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='tema.css') }}">
+
+    <style>
+        :root {
+            --cor-principal: {{ visual.cor_principal }};
+            --cor-lateral: {{ visual.cor_lateral }};
+        }
+
+        .login-page {
+            background: var(--cor-lateral);
+        }
+    </style>
+</head>
+
+<body class="login-page">
+    <main class="login-card">
+
+        {% if visual.logo %}
+            <div class="logo-preview">
+                <img src="{{ url_for('static', filename=visual.logo) }}"
+                     alt="Logotipo do sistema">
+            </div>
+        {% else %}
+            <div class="login-icon">◆</div>
+        {% endif %}
+
+        <h1>{{ visual.nome_sistema }}</h1>
+        <p>Acesso administrativo</p>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="alert {{ categoria }}">
+                    {{ mensagem }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="field">
+                <label for="usuario">Usuário</label>
+                <input id="usuario"
+                       name="usuario"
+                       autocomplete="username"
+                       required>
+            </div>
+
+            <div class="field">
+                <label for="senha">Senha</label>
+                <input id="senha"
+                       name="senha"
+                       type="password"
+                       autocomplete="current-password"
+                       required>
+            </div>
+
+            <button class="btn btn-primary login-button"
+                    type="submit">
+                Entrar no sistema
+            </button>
+        </form>
+
+        <div class="login-footer">
+            {{ visual.nome_empresa }}
+        </div>
+    </main>
+</body>
+</html>

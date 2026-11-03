@@ -1,0 +1,212 @@
+
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<a class="back-link" href="{{ url_for('pagina_inicial') }}">
+    ← Voltar aos clientes
+</a>
+
+<header class="topbar">
+    <div>
+        <p class="eyebrow">CADASTRO #{{ cliente.id }}</p>
+        <h1>{{ cliente.nome }}</h1>
+        <p class="subtitle">Gerenciamento do titular</p>
+    </div>
+
+    <span class="count">Cliente cadastrado</span>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Dados do titular</h2>
+            <p>Atualize os dados pessoais e de contato.</p>
+        </div>
+    </div>
+
+    <form class="inside-form"
+          action="{{ url_for('editar_cliente', cliente_id=cliente.id) }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <div class="form-grid">
+            <div class="field">
+                <label>Nome completo</label>
+                <input name="nome"
+                       value="{{ cliente.nome }}" required>
+            </div>
+
+            <div class="field">
+                <label>Ano de nascimento</label>
+                <input name="ano_nascimento"
+                       type="number"
+                       min="1900"
+                       max="2100"
+                       value="{{ cliente.ano_nascimento }}"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>CPF</label>
+                <input name="cpf"
+                       maxlength="14"
+                       value="{{ cliente.cpf }}" required>
+            </div>
+
+            <div class="field">
+                <label>Idade aproximada</label>
+                <input value="{{ cliente.idade }}" disabled>
+            </div>
+
+            <div class="field">
+                <label>Telefone com DDD</label>
+                <input name="telefone"
+                       type="tel"
+                       maxlength="20"
+                       value="{{ cliente.telefone }}">
+            </div>
+
+            <div class="field">
+                <label>E-mail</label>
+                <input name="email"
+                       type="email"
+                       maxlength="254"
+                       value="{{ cliente.email }}">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">
+                Salvar alterações
+            </button>
+        </div>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Endereços cadastrados</h2>
+            <p>Edite ou remova os endereços do cliente.</p>
+        </div>
+    </div>
+
+    <div class="address-list">
+        {% for endereco in cliente.enderecos %}
+
+        <form class="address-form"
+              action="{{ url_for('editar_endereco', cliente_id=cliente.id, endereco_id=endereco.id) }}"
+              method="POST">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <div class="field">
+                <label>Rua</label>
+                <input name="rua"
+                       value="{{ endereco.rua }}" required>
+            </div>
+
+            <div class="field">
+                <label>Número</label>
+                <input name="numero"
+                       value="{{ endereco.numero }}" required>
+            </div>
+
+            <button class="btn btn-primary" type="submit">
+                Salvar
+            </button>
+
+            <button class="btn btn-danger-outline"
+                    type="submit"
+                    formaction="{{ url_for('excluir_endereco', cliente_id=cliente.id, endereco_id=endereco.id) }}"
+                    formmethod="POST"
+                    onclick="return confirm('Excluir este endereço?')">
+                Excluir
+            </button>
+        </form>
+
+        {% else %}
+        <p class="muted inside-form">
+            Nenhum endereço cadastrado.
+        </p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Adicionar endereço</h2>
+            <p>Vincule outro endereço ao cliente.</p>
+        </div>
+    </div>
+
+    <form class="inside-form"
+          action="{{ url_for('adicionar_endereco', cliente_id=cliente.id) }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <div class="form-grid">
+            <div class="field">
+                <label>Rua</label>
+                <input name="rua" required>
+            </div>
+
+            <div class="field">
+                <label>Número</label>
+                <input name="numero" required>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="submit">
+                + Adicionar endereço
+            </button>
+        </div>
+    </form>
+</section>
+
+<section class="panel danger-panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Excluir cliente</h2>
+            <p>
+                Exclui o titular e todos os endereços vinculados.
+            </p>
+        </div>
+    </div>
+
+    <form class="inside-form"
+          action="{{ url_for('excluir_cliente', cliente_id=cliente.id) }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <div class="field">
+            <label>Digite EXCLUIR para confirmar</label>
+            <input name="confirmacao"
+                   placeholder="EXCLUIR"
+                   autocomplete="off"
+                   required>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-danger" type="submit">
+                Excluir cliente
+            </button>
+        </div>
+    </form>
+</section>
+
+{% endblock %}

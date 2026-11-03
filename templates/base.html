@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>{{ visual.nome_sistema }} | Administração</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='admin.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='tema.css') }}">
+
+    <style>
+        :root {
+            --cor-principal: {{ visual.cor_principal }};
+            --cor-lateral: {{ visual.cor_lateral }};
+        }
+    </style>
+</head>
+
+<body class="tema-{{ visual.tema }}">
+    <div class="layout">
+
+        <aside class="sidebar">
+            <a class="marca-sistema" href="{{ url_for('pagina_inicial') }}">
+                {% if visual.logo %}
+                    <img class="logo-imagem"
+                         src="{{ url_for('static', filename=visual.logo) }}"
+                         alt="Logotipo">
+                {% else %}
+                    <span class="logo-simbolo">◆</span>
+                {% endif %}
+
+                <span>{{ visual.nome_sistema }}</span>
+            </a>
+
+            <nav class="menu-admin">
+                <a href="{{ url_for('pagina_inicial') }}">
+                    ▦ Painel de clientes
+                </a>
+
+                <a href="{{ url_for('pagina_configuracoes') }}">
+                    ⚙ Configurações
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>{{ visual.nome_empresa }}</p>
+
+                <form action="{{ url_for('logout') }}"
+                      method="POST">
+
+                    <input type="hidden"
+                           name="csrf_token"
+                           value="{{ csrf_token() }}">
+
+                    <button class="logout-btn" type="submit">
+                        Sair da conta
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="content">
+
+            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                {% for categoria, mensagem in mensagens %}
+                    <div class="alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            {% block conteudo %}{% endblock %}
+
+            <footer>
+                {{ visual.nome_sistema }} —
+                {{ visual.nome_empresa }}
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

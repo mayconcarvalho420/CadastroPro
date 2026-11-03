@@ -1,0 +1,175 @@
+
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<header class="topbar">
+    <div>
+        <p class="eyebrow">ÁREA ADMINISTRATIVA</p>
+        <h1>Clientes</h1>
+        <p class="subtitle">
+            Gerencie os clientes cadastrados.
+        </p>
+    </div>
+
+    <a class="btn btn-primary" href="#novo-cliente">
+        + Novo cliente
+    </a>
+</header>
+
+<section class="stats">
+    <div class="stat-card">
+        <span>Clientes cadastrados</span>
+        <strong>{{ total_clientes }}</strong>
+        <small>Registros ativos</small>
+    </div>
+
+    <div class="stat-card">
+        <span>Endereços cadastrados</span>
+        <strong>{{ total_enderecos }}</strong>
+        <small>Endereços vinculados</small>
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <div>
+            <h2>Clientes cadastrados</h2>
+            <p>Clique no nome para gerenciar o cliente.</p>
+        </div>
+
+        <span class="count">
+            {{ total_clientes }} registros
+        </span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Nascimento</th>
+                    <th>CPF</th>
+                    <th>Endereços</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>#{{ cliente.id }}</td>
+
+                    <td>
+                        <a class="client-link"
+                           href="{{ url_for('detalhes_cliente', cliente_id=cliente.id) }}">
+                            {{ cliente.nome }}
+                        </a>
+                    </td>
+
+                    <td>{{ cliente.ano_nascimento }}</td>
+
+                    <td class="cpf">
+                        ***.***.{{ cliente.cpf[6:9] }}-**
+                    </td>
+
+                    <td>{{ cliente.enderecos | length }}</td>
+
+                    <td>
+                        <a class="small-link"
+                           href="{{ url_for('detalhes_cliente', cliente_id=cliente.id) }}">
+                            Gerenciar
+                        </a>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" class="empty">
+                        Nenhum cliente cadastrado.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="panel form-panel" id="novo-cliente">
+    <div class="panel-heading">
+        <div>
+            <h2>Cadastrar novo cliente</h2>
+            <p>Preencha os dados do titular.</p>
+        </div>
+    </div>
+
+    <form action="{{ url_for('cadastrar_cliente') }}"
+          method="POST">
+
+        <input type="hidden"
+               name="csrf_token"
+               value="{{ csrf_token() }}">
+
+        <div class="form-grid">
+            <div class="field">
+                <label>Nome completo</label>
+                <input name="nome" type="text" required>
+            </div>
+
+            <div class="field">
+                <label>Ano de nascimento</label>
+                <input name="ano_nascimento"
+                       type="number"
+                       min="1900"
+                       max="2100"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>CPF</label>
+                <input name="cpf" type="text"
+                       maxlength="14" required>
+            </div>
+
+            <div class="field">
+                <label>Telefone com DDD</label>
+                <input name="telefone"
+                       type="tel"
+                       maxlength="20"
+                       placeholder="(32) 99999-9999"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>E-mail</label>
+                <input name="email"
+                       type="email"
+                       maxlength="254"
+                       required>
+            </div>
+
+            <div class="field">
+                <label>Rua</label>
+                <input name="rua" required>
+            </div>
+
+            <div class="field">
+                <label>Número</label>
+                <input name="numero" required>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-secondary" type="reset">
+                Limpar
+            </button>
+
+            <button class="btn btn-primary" type="submit">
+                Salvar cliente
+            </button>
+        </div>
+    </form>
+</section>
+
+{% endblock %}

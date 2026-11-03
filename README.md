@@ -1,48 +1,63 @@
 # CadastroPro 🐍
 
-Aplicação web para cadastro e gerenciamento de clientes, desenvolvida com **Python, Flask, Jinja2 e SQLite3** como projeto de estudos em desenvolvimento backend.
+**Sistema web de cadastro e gerenciamento de clientes desenvolvido com Python, Flask, Jinja2 e SQLite3.**
 
-## 📖 Sobre o projeto
+O CadastroPro começou como um exercício de Programação Orientada a Objetos (POO) e evoluiu para minha primeira aplicação web. O projeto foi criado para colocar em prática conceitos estudados e entender como diferentes módulos de um sistema se conectam.
 
-O CadastroPro nasceu como um exercício de **Programação Orientada a Objetos (POO)**, com classes, herança e composição. Ao longo dos estudos, evoluiu para uma aplicação web com interface visual, gerenciamento de dados, autenticação administrativa e persistência em banco de dados.
+## 📸 Demonstração do sistema
 
-O projeto representa uma etapa do meu aprendizado: integrar regras de negócio escritas em Python a rotas Flask, templates HTML e um banco SQLite.
+### 1. Tela de login
 
-## ✨ Funcionalidades
+Área de autenticação destinada ao administrador.
 
-- Login e logout de administrador.
-- Cadastro e listagem de clientes.
-- Consulta, edição e exclusão de cadastros.
-- Dados de clientes: nome, ano de nascimento, CPF, telefone e e-mail.
-- Cadastro, alteração e exclusão de endereços vinculados a clientes.
-- Validação de CPF e impedimento de CPF duplicado.
-- Painel administrativo para personalizar nome do sistema, empresa, cores, tema e logotipo.
-- Mensagens de confirmação e erro na interface.
+![Tela de login do CadastroPro](docs/imagens/login.png)
 
-## 🧰 Tecnologias utilizadas
+### 2. Painel administrativo
 
-- **Python** — lógica de negócio e modelos orientados a objetos.
-- **Flask** — aplicação e rotas web.
-- **Jinja2** — renderização dos templates HTML.
-- **SQLite3** — armazenamento local dos cadastros e endereços.
-- **Flask-WTF** — proteção CSRF dos formulários.
-- **Werkzeug** — geração e verificação de hash da senha administrativa.
-- **HTML e CSS** — estrutura e estilos da interface.
+Visão geral dos clientes e endereços cadastrados, com acesso às funções de gerenciamento.
 
-## 🔐 Acesso administrativo
+![Painel administrativo do CadastroPro](docs/imagens/painel.png)
 
-As páginas de gerenciamento exigem autenticação de administrador. O projeto utiliza hash de senha, sessão com duração configurada de 30 minutos, proteção CSRF e um decorador para restringir o acesso às rotas administrativas.
+### 3. Gerenciamento de clientes
 
-A configuração administrativa é gerada **localmente** no primeiro uso. Não publique o arquivo `admin_config.json` nem dados reais de clientes.
+Tela para editar informações cadastrais e gerenciar os endereços de cada cliente.
 
-> **Atenção:** esta é uma aplicação de estudos preparada para execução local. As configurações atuais não devem ser consideradas prontas para hospedagem pública em produção.
+![Gerenciamento de clientes e endereços](docs/imagens/gerenciamento.png)
 
-## 📁 Estrutura do projeto
+## 🚀 Funcionalidades
+
+- Login e logout do administrador
+- Controle de acesso às páginas administrativas
+- Cadastro, consulta, edição e exclusão de clientes
+- Validação de CPF e verificação de CPF já cadastrado
+- Registro de nome, ano de nascimento, CPF, telefone e e-mail
+- Adição, edição e exclusão de endereços vinculados a clientes
+- Painel com contagem de clientes e endereços
+- Personalização do nome do sistema, cores, tema e logotipo
+- Persistência dos cadastros e configurações em SQLite3
+- Proteção CSRF nos formulários e armazenamento da senha administrativa com hash
+
+## 🛠️ Tecnologias utilizadas
+
+- **Python** — lógica de negócio e organização do backend
+- **Flask** — aplicação web e rotas
+- **Jinja2** — templates HTML dinâmicos
+- **SQLite3** — banco de dados local
+- **HTML e CSS** — estrutura e apresentação da interface
+- **Flask-WTF** — proteção CSRF
+- **Werkzeug** — geração e verificação de hash de senha
+- **Pillow** — validação e tratamento da imagem de logotipo
+
+## 📂 Estrutura do projeto
 
 ```text
 cadastro_cliente/
+├── docs/
+│   └── imagens/
+│       ├── login.png
+│       ├── painel.png
+│       └── gerenciamento.png
 ├── static/
-│   ├── uploads/
 │   ├── admin.css
 │   ├── style.css
 │   └── tema.css
@@ -52,81 +67,86 @@ cadastro_cliente/
 │   ├── configuracoes.html
 │   ├── index.html
 │   └── login.html
-├── .gitignore
 ├── app.py
 ├── cadastro_cliente.py
 ├── configuracoes.py
 ├── interface.py
 ├── main.py
 ├── modelos.py
-├── requirements.txt
 ├── setup_admin.py
 ├── validacoes.py
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
-Os arquivos locais de configuração, banco de dados e ambiente virtual são criados ou utilizados na execução, mas **não devem fazer parte do repositório público**.
+> A pasta `static/uploads/`, o banco `clientes.db` e o arquivo `admin_config.json` são gerados ou usados localmente e não devem ser publicados com dados privados.
 
-## ▶️ Como executar localmente
+## ⚙️ Como executar localmente
 
-### 1. Clone o projeto
-
-Substitua `SEU-USUARIO` pelo nome da sua conta no GitHub:
+### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU-USUARIO/CadastroPro.git
+git clone https://github.com/mayconcarvalho420/CadastroPro.git
 cd CadastroPro
 ```
 
-### 2. Crie um ambiente virtual
+### 2. Crie e ative um ambiente virtual
 
-```bash
-python -m venv venv
-```
-
-Ative o ambiente no **PowerShell (Windows)**:
+No Windows (PowerShell):
 
 ```powershell
+python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
 ### 3. Instale as dependências
 
-```bash
+```powershell
 python -m pip install -r requirements.txt
 ```
 
 ### 4. Configure o administrador
 
-```bash
+Na primeira execução, crie o usuário e a senha administrativa:
+
+```powershell
 python setup_admin.py
 ```
 
-Informe um nome de usuário e uma senha de pelo menos 12 caracteres. O script criará o arquivo local `admin_config.json`, contendo o hash da senha e a chave secreta da aplicação.
+O programa solicitará um nome de usuário e uma senha com no mínimo 12 caracteres. A configuração local será armazenada em `admin_config.json`, com hash da senha e chave secreta gerada aleatoriamente.
 
 ### 5. Inicie a aplicação
 
-```bash
+```powershell
 python app.py
 ```
 
-Abra no navegador:
+Acesse **http://127.0.0.1:5000** no navegador.
 
-**http://127.0.0.1:5000**
+O arquivo `clientes.db` e as tabelas necessárias são criados automaticamente pela aplicação ao inicializar seus componentes.
 
-A aplicação cria as tabelas de clientes e endereços no banco SQLite local quando a classe de gerenciamento é inicializada.
+> **Importante:** este projeto está configurado para execução local e demonstração de estudos. Antes de disponibilizá-lo publicamente na internet, é necessário revisar as configurações de produção, HTTPS, cookies de sessão e segurança do ambiente.
 
-> **Observação:** os comandos acima consideram Windows/PowerShell, Python e suas dependências corretamente instalados. A execução em uma instalação limpa ainda deve ser testada antes da publicação.
+## 🧠 Conceitos praticados
 
-## 🧠 Aprendizados
+- Programação Orientada a Objetos: classes, herança e composição
+- Separação das responsabilidades entre módulos
+- Criação de rotas e processamento de formulários
+- Renderização de templates
+- Operações CRUD com SQLite3
+- Validação de dados e tratamento de erros
+- Autenticação e controle de acesso
+- Integração entre backend e interface web
 
-Neste projeto, pratiquei conceitos de **POO, herança, composição, validação de dados, organização em módulos, integração entre backend e templates HTML, rotas web e persistência com SQLite**. Também utilizei ferramentas de IA como apoio na implementação, investigação de erros e evolução da aplicação.
+## 🎯 Sobre o aprendizado
 
-## 📷 Demonstração
+O CadastroPro representa uma etapa da minha transição de carreira para a programação. Durante o desenvolvimento, pude acompanhar a evolução de um exercício de POO para um sistema web funcional, com apoio de ferramentas de IA na implementação, nos testes e na compreensão de novos conceitos.
 
-Uma demonstração em vídeo do CadastroPro acompanha a publicação do projeto no LinkedIn. Capturas de tela poderão ser adicionadas a este repositório.
+O projeto continua sendo uma oportunidade de praticar, revisar decisões técnicas e aprofundar meus conhecimentos em Python e desenvolvimento backend.
 
 ## 👨‍💻 Autor
 
-**Maycon Junio Santos Carvalho**  
-Projeto desenvolvido durante meus estudos de Python e desenvolvimento backend.
+**Maycon Junio Santos Carvalho**
+
+[GitHub — mayconcarvalho420](https://github.com/mayconcarvalho420)
